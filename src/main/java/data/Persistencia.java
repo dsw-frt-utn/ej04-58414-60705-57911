@@ -9,6 +9,14 @@ public class Persistencia {
     private static ArrayList<Responsable> responsables = new ArrayList<>();
     private static ArrayList<Sucursal> sucursales = new ArrayList<>();
     
+    
+     public static void agregarVehiculo(Vehiculo v){
+     vehiculos.add(v);
+     }
+    public static ArrayList<Sucursal> getSucursales(){
+          return sucursales;
+    }
+    
     private static void inicializarResponsables(){
         Responsable r1 = new Responsable("Carlos Gómez", "25444111", "3815551111");
         Responsable r2 = new Responsable("Laura Pérez", "30111222", "3815552222");
@@ -58,6 +66,6 @@ public class Persistencia {
     public static void inicializar(){
         inicializarResponsables();
         inicializarSucursales();
-        inicializarVehiculos();
+         inicializarVehiculos();
     }
 }
