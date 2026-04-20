@@ -48,6 +48,6 @@ public abstract class Vehiculo {
     }
     @Override
     public String toString() {
-        return marca.getNombre() + " " + modelo;
+        return marca + " " + modelo;
     }
 }
