@@ -3,10 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package views;
-import domain.*;
-import data.Persistencia;
+
 import javax.swing.JOptionPane;
+import domain.Marca;
 import domain.Sucursal;
+import domain.Vehiculo;
+import domain.VehiculoCombustible;
+import domain.VehiculoElectrico;
+
 
 /**
  *
@@ -15,36 +19,33 @@ import domain.Sucursal;
 public class AgregarVehiculos extends javax.swing.JFrame {
 
     /**
-     * Creates new form AgregarVehiculos
+     * Creates new form AgregarVehiculoView
      */
-    public AgregarVehiculos() {
+       public AgregarVehiculos() {
          initComponents();
          cargarSucursales();
-    }
+       
+     }
+     private void cargarSucursales() {
+    jComboBox1.removeAllItems();
 
-    private void cargarSucursales() {
-        jComboBox1.removeAllItems();
-        
-        System.out.println(Persistencia.getSucursales().size());
-
-        for (Sucursal s : Persistencia.getSucursales()) {
-            jComboBox1.addItem(s);
+        for (Sucursal s : Controlador.getSucursales()) {
+        jComboBox1.addItem(s);
         }
-    }
- 
+   }
+  
     private void limpiarCampos() {
     txtPatente.setText("");
     txtModelo.setText("");
     txtMarca.setText("");
+    txtMarcaPais.setText("");
     txtAnio.setText("");
     txtCapCarga.setText("");
     txtValorEnergetico.setText("");
     txtLitrosExtra.setText("");
     
     comboTipoVehiculo.setSelectedIndex(0);
-
-    }
-
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -295,32 +296,28 @@ public class AgregarVehiculos extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:                                        
-    try {
-        String patente = txtPatente.getText();
-        String modelo = txtModelo.getText();
-        String nombreMarca = txtMarca.getText();
-        String paisMarca = txtMarcaPais.getText();
+   try {
+         String patente = txtPatente.getText();
+         String modelo = txtModelo.getText();
+         String nombreMarca = txtMarca.getText();
+         String paisMarca = txtMarcaPais.getText();
 
-        Marca marca = new Marca(nombreMarca, paisMarca);
+         Marca marca = new Marca(nombreMarca, paisMarca); 
 
         int anio = Integer.parseInt(txtAnio.getText());
         double capacidad = Double.parseDouble(txtCapCarga.getText());
         Sucursal sucursal = (Sucursal) jComboBox1.getSelectedItem();
 
-        // Este valor puede ser km/L (combustible) o kWh (eléctrico)
+        // 1 SOLO valor que puede ser km/L o kWh
         double valorEnergetico = Double.parseDouble(txtValorEnergetico.getText());
 
         String tipo = comboTipoVehiculo.getSelectedItem().toString();
 
         Vehiculo v;
 
-        // ---------------------
-        //  VEHÍCULO COMBUSTIBLE
-        // ---------------------
         if (tipo.equals("Combustible")) {
 
-            double litrosExtra = Double.parseDouble(txtLitrosExtra.getText());
-
+            double litrosExtra = Double.parseDouble(txtLitrosExtra.getText()); // este sí es exclusivo
             v = new VehiculoCombustible(
                 patente,
                 marca,
@@ -328,14 +325,11 @@ public class AgregarVehiculos extends javax.swing.JFrame {
                 anio,
                 capacidad,
                 sucursal,
-                valorEnergetico,  // km/litro
+                valorEnergetico,   // km/L
                 litrosExtra
             );
 
-        // ---------------------
-        //  VEHÍCULO ELÉCTRICO
-        // ---------------------
-        } else {
+        } else { // ELÉCTRICO
 
             v = new VehiculoElectrico(
                 patente,
@@ -344,18 +338,20 @@ public class AgregarVehiculos extends javax.swing.JFrame {
                 anio,
                 capacidad,
                 sucursal,
-                valorEnergetico  // kWh por km
+                valorEnergetico    // kWh Base
+                    
+                    
             );
         }
-
-        // Agregar a lista
-        Persistencia.agregarVehiculo(v);
-
-        JOptionPane.showMessageDialog(this, "Vehículo agregado correctamente");
-        limpiarCampos();
+        Controlador.agregarVehiculos(v);
+        
+        JOptionPane.showMessageDialog(this, "Vehículo agregado");
+        
+           limpiarCampos();
+           txtPatente.requestFocus();
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "ERROR: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error en los datos");
     }
 
     }//GEN-LAST:event_jButton1ActionPerformed

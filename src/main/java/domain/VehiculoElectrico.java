@@ -9,6 +9,11 @@ public class VehiculoElectrico extends Vehiculo {
         this.kwhBase = kwhBase;
     }
 
+    public double getKwhBase() {
+        return kwhBase;
+    }
+  
+
     @Override
     public double calcularConsumo(double kilometros) {
         double total = (kilometros/100) * kwhBase;

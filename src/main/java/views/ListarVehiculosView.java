@@ -7,33 +7,37 @@ import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class ListarVehiculosView extends javax.swing.JFrame {
+public class ListarVehiculosView extends javax.swing.JFrame{
 
     /**
      * Creates new form ListarAnimalesView
      */
-    public ListarVehiculosView() {
-        initComponents();
-        listarVehiculos();
-    }
+        public ListarVehiculosView(){
+          initComponents();
+          listarVehiculos();
+       }
     private void listarVehiculos(){
-        ArrayList<VehiculoViewModel> vehiculos = Controlador.getVehiculos();
-        vehiculosGrid.setModel(new DefaultTableModel(new Object[][] {}, 
-            new String[] { "Patente","Vehículo", "Tipo", "Sucursal", "Cap.Carga", "Km/litro", "Año", "Litros extra", "Km a recorrer" }));
-        
-        for(VehiculoViewModel vehiculo : vehiculos){
-            ((DefaultTableModel)vehiculosGrid.getModel()).addRow(new Object[] {
-                vehiculo.getPatente(),
-                vehiculo.getVehiculo(),
-                vehiculo.getTipo(),
-                vehiculo.getSucursal(),
-                vehiculo.getCapacidadCarga(),
-                vehiculo.getKmPorLitro(),
-                vehiculo.getAnio(),
-                vehiculo.getLitrosExtra(),
-                vehiculo.getKmARecorrer()
-            });
-        }
+    ArrayList<VehiculoViewModel> vehiculos = Controlador.getVehiculos();
+    
+    // Agregamos o mantenemos las columnas. Si quieres ver el país, podrías agregar "País Origen"
+    vehiculosGrid.setModel(new DefaultTableModel(new Object[][] {}, 
+        new String[] { "Patente", "Marca", "Pais", "Modelo", "Tipo", "Sucursal", "Cap.Carga", "Valor Energetico", "Año", "Litros extra", "Km a recorrer" }));
+    
+    for(VehiculoViewModel vehiculo : vehiculos){
+        ((DefaultTableModel)vehiculosGrid.getModel()).addRow(new Object[] {
+            vehiculo.getPatente(),
+            vehiculo.getMarca(),
+            vehiculo.getPais(),
+            vehiculo.getModelo(),// Es mejor separar Marca y Modelo en columnas distintas
+            vehiculo.getTipo(),
+            vehiculo.getSucursal(),
+            vehiculo.getCapacidadCarga(),
+            vehiculo.getKmPorLitro(),
+            vehiculo.getAnio(),
+            vehiculo.getLitrosExtra(),
+            vehiculo.getKmARecorrer()
+        });
+      }
     }
 
     /**
@@ -170,14 +174,31 @@ public class ListarVehiculosView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void calcularConsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcularConsumosActionPerformed
+         // TODO add your handling code here:
          TableModel table = vehiculosGrid.getModel();
          Map<String, Double> lista = new HashMap<>();
-         for(int i=0;i< table.getRowCount();i++){
-             lista.put((String)table.getValueAt(i, 0), (Double)table.getValueAt(i, 8));
-         }
+         
+         
+         for(int i = 0; i < table.getRowCount(); i++) {
+        // La patente está en la columna 0
+        String patente = table.getValueAt(i, 0).toString();
+        
+        // Los KM están en la columna 8 (la última que agregaste en el row)
+        Object valorKm = table.getValueAt(i, 10);
+        double km = 0;
+        
+        if (valorKm != null) {
+            try {
+                km = Double.parseDouble(valorKm.toString());
+            } catch (NumberFormatException e) {
+                km = 0; // Por si el usuario ingresó algo que no es un número
+            }
+        }
+        lista.put(patente, km);
+    }
          double[] consumos = Controlador.calcularConsumos(lista);
          totalConsumoElectricosValue.setText(String.format("%.2f%n kWh", consumos[0]));
-         totalConsumoCombustibleValue.setText(String.format("%.2f%n litros", consumos[1]));
+         totalConsumoCombustibleValue.setText(String.format("%.2f%n litros", consumos[1]));  
     }//GEN-LAST:event_calcularConsumosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -233,3 +254,4 @@ public class ListarVehiculosView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 }
+
