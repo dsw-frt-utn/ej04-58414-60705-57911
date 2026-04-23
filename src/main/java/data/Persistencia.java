@@ -9,14 +9,12 @@ public class Persistencia {
     private static ArrayList<Responsable> responsables = new ArrayList<>();
     private static ArrayList<Sucursal> sucursales = new ArrayList<>();
     
-    
-     public static void agregarVehiculo(Vehiculo v){
-     vehiculos.add(v);
-     }
+
     public static ArrayList<Sucursal> getSucursales(){
           return sucursales;
     }
-    
+
+
     private static void inicializarResponsables(){
         Responsable r1 = new Responsable("Carlos Gómez", "25444111", "3815551111");
         Responsable r2 = new Responsable("Laura Pérez", "30111222", "3815552222");
@@ -33,24 +31,19 @@ public class Persistencia {
     }
     
     private static void inicializarVehiculos(){
-        Sucursal s1 = sucursales.get(0);
+       /* Sucursal s1 = sucursales.get(0);
         Sucursal s2 = sucursales.get(1);
-
-        Marca m1 = new Marca("Renault", "Alemania");
-        Marca m2 = new Marca("Ford", "Francia");
-        Marca m3 = new Marca("Iveco", "Italia");
-        Marca m4 = new Marca("Mercedes", "Argetina");
         
-        VehiculoElectrico v1 = new VehiculoElectrico("AE123FG", m1, "Kangoo E-Tech", 2020, 1000, s1, 16);
-        VehiculoElectrico v2 = new VehiculoElectrico("AF456HI", m2, "E-Transit", 2021, 1300, s2, 16);
+        VehiculoElectrico v1 = new VehiculoElectrico("AE123FG", new Marca ("Renault","Francia"), "Kangoo E-Tech", 2020, 1000, s1, 16);
+        VehiculoElectrico v2 = new VehiculoElectrico("AF456HI", new Marca("Ford","Argentia"), "E-Transit", 2021, 1300, s2, 16);
 
-        VehiculoCombustible v3 = new VehiculoCombustible("AC789JK", m3, "Daily", 2023, 1200, s1, 8, 1.5);
-        VehiculoCombustible v4 = new VehiculoCombustible("AD321LM", m4, "Sprinter", 2020, 1200, s2, 7, 1);
+        VehiculoCombustible v3 = new VehiculoCombustible("AC789JK",new Marca ("Iveco","Usa"), "Daily", 2023, 1200, s1, 8, 1.5);
+        VehiculoCombustible v4 = new VehiculoCombustible("AD321LM",new Marca ("Mercedes","Argentina"),"Sprinter", 2020, 1200, s2, 7, 1);
         
         vehiculos.add(v1);
         vehiculos.add(v2);
         vehiculos.add(v3);
-        vehiculos.add(v4);
+        vehiculos.add(v4);*/
     }
     
     public static ArrayList<Vehiculo> getVehiculos(){
@@ -66,6 +59,6 @@ public class Persistencia {
     public static void inicializar(){
         inicializarResponsables();
         inicializarSucursales();
-         inicializarVehiculos();
+        inicializarVehiculos();
     }
 }

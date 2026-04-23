@@ -17,8 +17,17 @@ public abstract class Vehiculo {
         this.capacidadCarga = capacidadCarga;
         this.sucursal = sucursal;
         this.tipo = tipo;
+        
     }
 
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+    
     public String getPatente() {
         return patente;
     }
@@ -48,6 +57,11 @@ public abstract class Vehiculo {
     }
     @Override
     public String toString() {
-        return marca + " " + modelo;
+        return marca + " " + modelo + " - Sucursal: " + sucursal.getCodigo();
     }
+
+    public String getPais() {
+        return marca.getPais();
+    }  
+    
 }
